@@ -261,6 +261,12 @@ Before running the operator, the CRD must be registered with the Kubernetes apis
 $ kubectl create -f deploy/crds/cache.example.com_memcacheds_crd.yaml
 ```
 
+You can confirm that this has worked by running:
+
+```
+$ kubectl explain memcached --recursive
+```
+
 Once this is done, there are two ways to run the operator:
 
 - As a Deployment inside a Kubernetes cluster

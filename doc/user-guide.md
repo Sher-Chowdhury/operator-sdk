@@ -287,15 +287,35 @@ before building the memcached-operator image.
 Build the memcached-operator image and push it to a registry:
 ```sh
 $ operator-sdk build quay.io/example/memcached-operator:v0.0.1
-$ sed -i 's|REPLACE_IMAGE|quay.io/example/memcached-operator:v0.0.1|g' deploy/operator.yaml
+```
+
+In my case, I replaced 'example' with 
+
+```sher
+$ operator-sdk build quay.io/sher_chowdhury/memcached-operator:v0.0.1
+```
+
+
+
+```sh
+$ sed -i 's|REPLACE_IMAGE|quay.io/example/memcached-operator:v0.0.1|g' deploy/operator.yaml # does not work on OSX
+$ sed -i "" 's|REPLACE_IMAGE|quay.io/example/memcached-operator:v0.0.1|g' deploy/operator.yaml # only works on OSX
+```
+
+In a similar fashion I did:
+
+```
+sed -i "" 's|REPLACE_IMAGE|quay.io/sher_chowdhury/memcached-operator:v0.0.1|g' deploy/operator.yaml
+```
+
+
+```sh
+$ docker login quay.io
+
+
 $ docker push quay.io/example/memcached-operator:v0.0.1
 ```
 
-**Note**
-If you are performing these steps on OSX, use the following `sed` command instead:
-```sh
-$ sed -i "" 's|REPLACE_IMAGE|quay.io/example/memcached-operator:v0.0.1|g' deploy/operator.yaml
-```
 
 The Deployment manifest is generated at `deploy/operator.yaml`. Be sure to update the deployment image as shown above since the default is just a placeholder.
 
@@ -488,7 +508,8 @@ func main() {
 
 ##### If 3rd party resource does not have `AddToScheme()` function
 
-Use the [SchemeBuilder][scheme_builder] package from controller-runtime to initialize a new scheme builder that can be used to register the 3rd party resource with the manager's scheme.
+Use the [SchemeBuilder][scheme_builder] package from controller-runtime to initialize a new scheme builder that can be u
+nto register the 3rd party resource with the manager's scheme.
 
 Example of registering `DNSEndpoints` 3rd party resource from `external-dns`:
 

@@ -101,6 +101,8 @@ type MemcachedStatus struct {
 	Nodes []string `json:"nodes"`
 }
 ```
+We'll used Size to set the number of pods in our deployment, we'll set this to '3' later on. As for MemcachedStatus, it will display a list of pod names at the bottom of the output for `kubectl get memcached cr-name -o yaml`. See further down for an example. 
+
 
 After modifying the `*_types.go` file always run the following command to update the generated code for that resource type:
 
@@ -374,6 +376,68 @@ spec:
 
 $ kubectl apply -f deploy/crds/cache.example.com_v1alpha1_memcached_cr.yaml
 ```
+
+Then check it has worked:
+
+```sh
+$ kubectl get memcached -o wide
+NAME                AGE
+example-memcached   105s
+```
+
+Also more detailed info:
+
+```sh
+$ $ kubectl get memcached example-memcached -o yaml
+apiVersion: cache.example.com/v1alpha1
+kind: Memcached
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"cache.example.com/v1alpha1","kind":"Memcached","metadata":{"annotations":{},"name":"example-memcached","namespace":"default"},"spec":{"size":3}}
+  creationTimestamp: "2020-02-07T10:54:42Z"
+  generation: 1
+  name: example-memcached
+  namespace: default
+  resourceVersion: "107600"
+  selfLink: /apis/cache.example.com/v1alpha1/namespaces/default/memcacheds/example-memcached
+  uid: 3e819edb-4998-11ea-87ae-0ef0e3c74fbe
+spec:
+  size: 3
+status:
+  nodes:
+  - example-memcached-c88c4dc9f-4qhhg
+  - example-memcached-c88c4dc9f-9mbm8
+  - example-memcached-c88c4dc9f-6c7q8
+```
+
+Also here's the describe output:
+
+```
+$ kubectl describe memcached example-memcached 
+Name:         example-memcached
+Namespace:    default
+Labels:       <none>
+Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                {"apiVersion":"cache.example.com/v1alpha1","kind":"Memcached","metadata":{"annotations":{},"name":"example-memcached","namespace":"default...
+API Version:  cache.example.com/v1alpha1
+Kind:         Memcached
+Metadata:
+  Creation Timestamp:  2020-02-07T10:54:42Z
+  Generation:          1
+  Resource Version:    107600
+  Self Link:           /apis/cache.example.com/v1alpha1/namespaces/default/memcacheds/example-memcached
+  UID:                 3e819edb-4998-11ea-87ae-0ef0e3c74fbe
+Spec:
+  Size:  3
+Status:
+  Nodes:
+    example-memcached-c88c4dc9f-4qhhg
+    example-memcached-c88c4dc9f-9mbm8
+    example-memcached-c88c4dc9f-6c7q8
+Events:  <none>
+```
+
 
 Ensure that the memcached-operator creates the deployment for the CR:
 

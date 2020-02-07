@@ -87,6 +87,12 @@ $ operator-sdk add api --api-version=cache.example.com/v1alpha1 --kind=Memcached
 
 This will scaffold the Memcached resource API under `pkg/apis/cache/v1alpha1/...`.
 
+this ends up creating a yaml file of the kind "CustomResourceDefinition".
+
+```sh
+$ kubectl explain CustomResourceDefinition
+```
+
 ### Define the spec and status
 
 Modify the spec and status of the `Memcached` Custom Resource(CR) at `pkg/apis/cache/v1alpha1/memcached_types.go`:

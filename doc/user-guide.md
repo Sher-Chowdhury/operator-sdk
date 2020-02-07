@@ -505,6 +505,12 @@ NAME                 DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 example-memcached    4         4         4            4           5m
 ```
 
+We can monitor what our new operator is doing by monitoring the operator's pod logs, e.g.:
+
+```sh
+$ kubectl logs -f memcached-operator-74999545fb-w7k4p
+```
+
 ### Cleanup
 
 Clean up the resources:

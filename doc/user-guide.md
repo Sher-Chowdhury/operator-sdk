@@ -109,6 +109,12 @@ type MemcachedStatus struct {
 ```
 We'll used Size to set the number of pods in our deployment, we'll set this to '3' later on. As for MemcachedStatus, it will display a list of pod names at the bottom of the output for `kubectl get memcached cr-name -o yaml`. See further down for an example. 
 
+the 'json' is used because kubernetes components communicate with eachother using json code. 
+
+xxxxSpec is used add in custom spec into your crd defintiion. 
+
+xxxStatus is used for CRs to use to report back info about it's status back to the Operator, I think. 
+
 
 After modifying the `*_types.go` file always run the following command to update the generated code for that resource type:
 

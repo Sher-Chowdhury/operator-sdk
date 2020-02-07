@@ -201,6 +201,9 @@ err := c.Watch(
   &source.Kind{Type: &cachev1alpha1.Memcached{}}, &handler.EnqueueRequestForObject{})
 ```
 
+**Sher:** I think this watch function continiously monitors the kubernete's etcd database for changes in memcache CRs. So if there is a change in thinks like, pod size, then it can reconcile it.  
+
+
 The next watch is for Deployments but the event handler will map each event to a reconcile `Request` for the owner of the Deployment. Which in this case is the Memcached object for which the Deployment was created. This allows the controller to watch Deployments as a secondary resource.
 
 ```Go

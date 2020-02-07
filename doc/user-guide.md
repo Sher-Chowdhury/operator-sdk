@@ -275,6 +275,115 @@ You can confirm that this has worked by running:
 $ kubectl explain memcached --recursive
 ```
 
+Also you can list it as of the one of the aviable CRD objects:
+
+```
+$ kubectl get crds -o wide
+NAME                                                        CREATED AT
+alertmanagers.monitoring.coreos.com                         2020-01-04T05:57:32Z
+apiservers.config.openshift.io                              2020-01-04T05:43:23Z
+authentications.config.openshift.io                         2020-01-04T05:43:23Z
+...etc
+
+
+$ kubectl get crds memcacheds.cache.example.com
+NAME                           CREATED AT
+memcacheds.cache.example.com   2020-02-07T10:01:40Z
+
+
+
+$ kubectl get crds memcacheds.cache.example.com -o yaml
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: "2020-02-07T10:01:40Z"
+  generation: 1
+  name: memcacheds.cache.example.com
+  resourceVersion: "98668"
+  selfLink: /apis/apiextensions.k8s.io/v1beta1/customresourcedefinitions/memcacheds.cache.example.com
+  uid: d647a3c6-4990-11ea-87ae-0ef0e3c74fbe
+spec:
+  conversion:
+    strategy: None
+  group: cache.example.com
+  names:
+    kind: Memcached
+    listKind: MemcachedList
+    plural: memcacheds
+    singular: memcached
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: Memcached is the Schema for the memcacheds API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: MemcachedSpec defines the desired state of Memcached
+          properties:
+            size:
+              description: Size is the size of the memcached deployment
+              format: int32
+              type: integer
+          required:
+          - size
+          type: object
+        status:
+          description: MemcachedStatus defines the observed state of Memcached
+          properties:
+            nodes:
+              description: Nodes are the names of the memcached pods
+              items:
+                type: string
+              type: array
+          required:
+          - nodes
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: Memcached
+    listKind: MemcachedList
+    plural: memcacheds
+    singular: memcached
+  conditions:
+  - lastTransitionTime: "2020-02-07T10:01:40Z"
+    message: no conflicts found
+    reason: NoConflicts
+    status: "True"
+    type: NamesAccepted
+  - lastTransitionTime: null
+    message: the initial names have been accepted
+    reason: InitialNamesAccepted
+    status: "True"
+    type: Established
+  storedVersions:
+  - v1alpha1
+```
+
+
+
+
+
+
+
 Once this is done, there are two ways to run the operator:
 
 - As a Deployment inside a Kubernetes cluster

@@ -25,6 +25,7 @@ Use the CLI to create a new memcached-operator project:
 ```sh
 $ mkdir -p $HOME/projects
 $ cd $HOME/projects
+$ export GO111MODULE=on. # This is to enable golang's new module system, should add this to your ~/.zshrc file. 
 $ operator-sdk new memcached-operator --repo=github.com/example-inc/memcached-operator
 $ cd memcached-operator
 ```

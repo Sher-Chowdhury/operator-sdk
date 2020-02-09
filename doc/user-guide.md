@@ -219,6 +219,8 @@ err := c.Watch(&source.Kind{Type: &appsv1.Deployment{}}, &handler.EnqueueRequest
   })
 ```
 
+**Sher:** I think you need a watch for each child resource, so that if it get's deleted, the watch will notifiy the primary cr of the deviation and then submit a reconcile request to fix the problem.  It's a bit like replicasets and pods. 
+
 #### Controller configurations
 
 There are a number of useful configurations that can be made when initialzing a controller and declaring the watch parameters. For more details on these configurations consult the upstream [controller godocs][controller_godocs].

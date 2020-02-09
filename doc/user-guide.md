@@ -464,6 +464,8 @@ NAME                     DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 memcached-operator       1         1         1            1           1m
 ```
 
+**Sher:** notice only one-pod deployment. You can have more pods, in which one pod out of the cluster has to be elected as the leader pod. Then only the leader pod monitors the kube api for events. 
+
 ### 2. Run locally outside the cluster
 
 This method is preferred during development cycle to deploy and test faster.
